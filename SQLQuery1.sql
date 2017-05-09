@@ -22,38 +22,42 @@ friends_add_time date
 constraint cs_friend foreign key(userID)references t_user(userID)
 )
 --drop table blog_list
-
 create table blog_list(
 userID int ,
-blogID int primary key(userID),
+blogID int  primary key(blogID),
 blog_time date ,
 url varchar(100),
 blogcommentID int,
 constraint cs_blog foreign key(userID) references t_user(userID),
-constraint cs_bcomm foreign key(blogcommentID) references blog_comment(blogcommentID)
 )
--drop table act_list
+--drop table act_list
 create table act_list(
 userID int ,
 actID int ,
-act_time date primary key(userID),
+act_time date primary key(actID),
 url varchar(100),
-actcommentID int,
-constraint cs_act foreign key(userID) references t_user(userID),
-constraint cs_actcomm foreign key(actcommentID) references act_comment(actcommentID)
+constraint cs_act foreign key(userID) references t_user(userID)
 )
--drop table	 blog_comment
+--drop table	 blog_comment
 create table blog_comment(
 blogcommentID int primary key,
 userID int,
+blogID int,
 comment_detail nvarchar(500),
 comment_time date ,
-constraint cs_bloguser foreign key(userID) references t_user(userID)
+constraint cs_bloguser foreign key(userID) references t_user(userID),
+constraint cs_blogcomment foreign key(blogID) references blog_list(blogID)
 )
+--drop table act_comment
 create table act_comment(
 actcommentID int primary key,
 userID int,
+actID int,
 comment_detail nvarchar(500),
 comment_time date,
-constraint cs_actuser foreign key(userID) references t_user(userID)
+constraint cs_actuser foreign key(userID) references t_user(userID),
+constraint cs_accomm foreign key(actID) references act_list(actID)
 )
+--alter table blog_list drop constraint cs_bcomm
+
+--alter table blog_comment add constraint cs_bcomm foreign key(blogcommentID) references blog_list(blogcommentID)
